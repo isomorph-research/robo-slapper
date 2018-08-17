@@ -1,7 +1,22 @@
 #ifndef ROBOARM_H
 #define ROBOARM_H
 
-const int SHOULDER_PIN = 8;
+typedef enum
+{
+    LEFT,
+    DOWN,
+    UP,
+    RIGHT,
+    INVALID
+} Direction;
+
+typedef struct
+{
+    Direction direction;
+    int degrees;
+} movement;
+
+const int SHOULDER_PIN = 12;
 const int ELBOW_PIN = 9;
 const int GRIPPER_PIN = 10;
 
