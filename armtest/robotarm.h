@@ -7,6 +7,8 @@ typedef enum
     DOWN,
     UP,
     RIGHT,
+    OPEN,
+    CLOSE,
     INVALID
 } Direction;
 
@@ -16,13 +18,13 @@ typedef struct
     int degrees;
 } movement;
 
-const int SHOULDER_PIN = 12;
-const int ELBOW_PIN = 9;
-const int GRIPPER_PIN = 10;
+const int SHOULDER_PIN = 9;
+const int ELBOW_PIN = 10;
+const int GRIPPER_PIN = 11;
 
-const int SHOULDER_OFFSET = 0;
-const int ELBOW_OFFSET = 0;
-const int GRIPPER_OFFSET = 0;
+const int SHOULDER_OFFSET = 90;
+const int ELBOW_OFFSET = 75;
+const int GRIPPER_OFFSET = 90;
 
 const int SHOULDER_SCALE = 1;
 const int ELBOW_SCALE = 1;
@@ -34,7 +36,7 @@ const int GRIPPER_MAX = 120;
 
 const int SHOULDER_MIN = 0;
 const int ELBOW_MIN = 0;
-const int GRIPPER_MIN = 60;
+const int GRIPPER_MIN = 0;
 
 int init_arm();
 
@@ -42,7 +44,9 @@ void arm_up(int angle);
 void arm_down(int angle);
 void arm_left(int angle);
 void arm_right(int angle);
-void open_gripper();
-void close_gripper();
+void open_gripper(int angle);
+void close_gripper(int angle);
+void queue_open_gripper();
+void queue_close_gripper();
 
 #endif

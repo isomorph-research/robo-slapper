@@ -21,7 +21,7 @@ int init_arm() {
   return 0;
 }
 
-void arm_up(int angle) {
+void arm_down(int angle) {
   if (elbow_pos + angle * ELBOW_SCALE <= ELBOW_MAX) {
     elbow_pos += angle * ELBOW_SCALE;
     elbow.write(elbow_pos);
@@ -32,7 +32,7 @@ void arm_up(int angle) {
   return;
 }
 
-void arm_down(int angle) {
+void arm_up(int angle) {
   if (elbow_pos - angle * ELBOW_SCALE >= ELBOW_MIN) {
     elbow_pos -= angle * ELBOW_SCALE;
     elbow.write(elbow_pos);
@@ -43,7 +43,7 @@ void arm_down(int angle) {
   return;
 }
 
-void arm_left(int angle) {
+void arm_right(int angle) {
   if (shoulder_pos - angle * SHOULDER_SCALE >= SHOULDER_MIN) {
     shoulder_pos -= angle * SHOULDER_SCALE;
     shoulder.write(shoulder_pos);
@@ -54,7 +54,7 @@ void arm_left(int angle) {
   return;
 }
 
-void arm_right(int angle) {
+void arm_left(int angle) {
   if (shoulder_pos + angle * SHOULDER_SCALE <= SHOULDER_MAX) {
     shoulder_pos += angle * SHOULDER_SCALE;
     shoulder.write(shoulder_pos);
@@ -65,12 +65,22 @@ void arm_right(int angle) {
   return;
 }
 
-void open_gripper() {
-  gripper.write(GRIPPER_MAX);
+void open_gripper(int angle) {
+  if (gripper_pos + angle * GRIPPER_SCALE <= GRIPPER_MAX) {
+    gripper_pos += angle * GRIPPER_SCALE;
+  } else {
+    gripper_pos = GRIPPER_MAX;
+  }
+  gripper.write(gripper_pos);
   return;
 }
 
-void close_gripper() {
-  gripper.write(GRIPPER_MIN);
+void close_gripper(int angle) {
+    if (gripper_pos - angle * GRIPPER_SCALE >= GRIPPER_MIN) {
+    gripper_pos -= angle * GRIPPER_SCALE;
+  } else {
+    gripper_pos = GRIPPER_MIN;
+  }
+  gripper.write(gripper_pos);
   return;
 }
