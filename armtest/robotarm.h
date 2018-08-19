@@ -26,19 +26,20 @@ const int SHOULDER_OFFSET = 90;
 const int ELBOW_OFFSET = 75;
 const int GRIPPER_OFFSET = 90;
 
-const int SHOULDER_SCALE = 1;
+const int SHOULDER_SCALE = 2;
 const int ELBOW_SCALE = 1;
-const int GRIPPER_SCALE = 1;
+const int GRIPPER_SCALE = 10;
 
 const int SHOULDER_MAX = 180;
 const int ELBOW_MAX = 180;
-const int GRIPPER_MAX = 120;
+const int GRIPPER_MAX = 100;
 
 const int SHOULDER_MIN = 0;
 const int ELBOW_MIN = 0;
-const int GRIPPER_MIN = 0;
+const int GRIPPER_MIN = 30;
 
 int init_arm();
+void center_arm();
 
 void arm_up(int angle);
 void arm_down(int angle);

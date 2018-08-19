@@ -7,9 +7,9 @@
 
 Adafruit_7segment matrix = Adafruit_7segment();
 
-const uint8_t C_char = 0x39;
-const uint8_t L_char = 0x38;
-const uint8_t R_char = 0x50;
+// const uint8_t C_char = 0x39;
+// const uint8_t L_char = 0x38;
+// const uint8_t R_char = 0x50;
 
 const int green_pin = 2;
 const int blue_pin = 3;
@@ -31,41 +31,64 @@ void setup() {
   Serial.println("Embyr Technologies ROBO-SLAPPER");
   Serial.println("booting...");
   delay(1500);
-  matrix.begin(0x70);
+  //matrix.begin(0x70);
 
   pos = 0;
+  Serial.print("ATTACHING PINS... ");
   pinMode(green_pin, INPUT_PULLUP);
   pinMode(blue_pin, INPUT_PULLUP);
   pinMode(yellow_pin, INPUT_PULLUP);
   pinMode(orange_pin, INPUT_PULLUP);
   pinMode(done_pin, INPUT_PULLUP);
-  pinMode(universe_pin, INPUT_PULLDOWN);
-  
-  attachInterrupt(digitalPinToInterrupt(green_pin), green_button, FALLING);
-  attachInterrupt(digitalPinToInterrupt(blue_pin), blue_button, FALLING);
-  attachInterrupt(digitalPinToInterrupt(yellow_pin), yellow_button, FALLING);
-  attachInterrupt(digitalPinToInterrupt(orange_pin), orange_button, FALLING);
-  attachInterrupt(digitalPinToInterrupt(universe_pin), universe_button, RISING);
+  pinMode(open_pin, INPUT);
+  pinMode(close_pin, INPUT);
+  pinMode(universe_pin, INPUT);
+  Serial.println("OK");
+
+  Serial.print("ATTACHING INTERRUPTS... ");
+  // attachInterrupt(digitalPinToInterrupt(green_pin), green_button, FALLING);
+  // attachInterrupt(digitalPinToInterrupt(blue_pin), blue_button, FALLING);
+  // attachInterrupt(digitalPinToInterrupt(yellow_pin), yellow_button, FALLING);
+  // attachInterrupt(digitalPinToInterrupt(orange_pin), orange_button, FALLING);
+  // attachInterrupt(digitalPinToInterrupt(universe_pin), universe_button, RISING);
+  Serial.println("OK");
 
   int failure = 1;
   while(failure) {
+      Serial.println(". . . INITIALIZING ARM . . .");
       failure = init_arm();
   }
   Serial.println("ready");
 }
 
 void loop() {
-  // nothing to see here
+  if (digitalRead(done_pin) == HIGH) {
+      Serial.println("...centering...");
+      center_arm();
+      run_movement();
+  } else if (digitalRead(open_pin) == HIGH) {
+      queue_open_gripper();
+  } else if (digitalRead(close_pin) == HIGH) {
+      queue_close_gripper();
+  } else if (digitalRead(green_pin) == LOW) {
+    green_button();
+  } else if (digitalRead(blue_pin) == LOW) {
+    blue_button();
+  } else if (digitalRead(orange_pin) == LOW) {
+    orange_button();
+  } else if (digitalRead(yellow_pin) == LOW) {
+    yellow_button();
+  }
 }
 
 void universe_button() {
-  if (digitalRead(done_pin) == HIGH) {
-    run_movement();
-  } else if (digitalRead(open_pin) == HIGH) {
-    queue_open_gripper();
-  } else if (digitalRead(close_pin) == HIGH) {
-    queue_close_pin();
-  }
+  // if (digitalRead(done_pin) == HIGH) {
+  //   run_movement();
+  // } else if (digitalRead(open_pin) == HIGH) {
+  //   queue_open_gripper();
+  // } else if (digitalRead(close_pin) == HIGH) {
+  //   queue_close_gripper();
+  // }
 }
 
 void queue_open_gripper() {
@@ -95,7 +118,7 @@ void queue_close_gripper() {
 }
 
 void green_button() {
-  delay(2500);
+  delay(250);
   Serial.println("green");
   if(pos < 1024) {
     movement *mvt = new movement;
@@ -108,7 +131,7 @@ void green_button() {
 }
 
 void blue_button() {
-  delay(2500);
+  delay(250);
   Serial.println("blue");
   if(pos < 1024) {
     movement* mvt = new movement;
@@ -121,7 +144,7 @@ void blue_button() {
 }
 
 void yellow_button() {
-  delay(2500);
+  delay(250);
   Serial.println("yellow");
   if(pos < 1024) {
     movement *mvt = new movement;
@@ -134,7 +157,7 @@ void yellow_button() {
 }
 
 void orange_button() {
-  delay(2500);
+  delay(250);
   Serial.println("orange");
   if(pos < 1024) {
     movement *mvt = new movement;
@@ -147,6 +170,7 @@ void orange_button() {
 }
 
 void run_movement() {
+  delay(250);
   if(pos == 0) {
     return;
   }
@@ -239,11 +263,11 @@ void run_movement() {
         break;
 
     }
-    if(new_dir){
-    //   matrix.print(0x0000, HEX);
-    //   matrix.writeDisplay();
-      delay(750);
-    }
+    // if(new_dir){
+    // //   matrix.print(0x0000, HEX);
+    // //   matrix.writeDisplay();
+    //   delay(250);
+    // }
     // matrix.print(display_num, DEC);
     // matrix.writeDisplay();
     delay(250);

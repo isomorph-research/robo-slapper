@@ -14,11 +14,17 @@ int init_arm() {
   elbow.attach(ELBOW_PIN);
   gripper.attach(GRIPPER_PIN);
 
-  shoulder.write(shoulder_pos);
-  elbow.write(elbow_pos);
-  gripper.write(gripper_pos);
+  shoulder.write(SHOULDER_OFFSET);
+  elbow.write(ELBOW_OFFSET);
+  gripper.write(GRIPPER_OFFSET);
 
   return 0;
+}
+
+void center_arm() {
+  shoulder.write(SHOULDER_OFFSET);
+  elbow.write(ELBOW_OFFSET);
+  gripper.write(GRIPPER_OFFSET);
 }
 
 void arm_down(int angle) {
